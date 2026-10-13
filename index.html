@@ -1,623 +1,919 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ardovan Network</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <style>
-        /* ============ RESET & BASE ============ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اردوان نتورک | Ardovan Network</title>
+<meta name="description" content="اردوان نتورک — طراحی شبکه، امنیت سایبری و پشتیبانی زیرساخت فناوری اطلاعات برای کسب‌وکارها.">
+<meta name="theme-color" content="#1a1a1a">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #FFFFFF;
-            color: #334155;
-            line-height: 1.7;
-            scroll-behavior: smooth;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+<style>
+/* ================= VARIABLES ================= */
+:root{
+  --bg:#1a1a1a;
+  --bg-2:#1f1f1f;
+  --bg-3:#242424;
+  --bg-card:#222222;
+  --bg-card-hover:#282828;
+  --bg-input:#161616;
 
-        /* ============ NAVBAR ============ */
-        nav {
-            background-color: #FFFFFF;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
-        }
+  --green:#00ff95;
+  --green-soft:rgba(0,255,149,.12);
+  --green-line:rgba(0,255,149,.22);
+  --green-glow:rgba(0,255,149,.30);
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #3B82F6;
-            letter-spacing: 1px;
-        }
+  --purple:#c084fc;
+  --purple-soft:rgba(192,132,252,.12);
+  --purple-line:rgba(192,132,252,.25);
+  --purple-glow:rgba(192,132,252,.30);
 
-        .logo span {
-            color: #1E293B;
-        }
+  --white:#f4f4f5;
+  --gray:#a1a1aa;
+  --gray-dim:#6b6b73;
+  --red:#ff5f56;
 
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
+  --fa:'Vazirmatn',system-ui,sans-serif;
+  --mono:'JetBrains Mono','Fira Code',monospace;
 
-        .nav-links a {
-            color: #334155;
-            font-size: 16px;
-            transition: color 0.3s;
-            padding: 8px 16px;
-            border-radius: 8px;
-        }
+  --r:12px;
+  --t:.3s cubic-bezier(.4,0,.2,1);
+}
 
-        .nav-links a:hover {
-            color: #3B82F6;
-            background-color: rgba(59, 130, 246, 0.08);
-        }
+/* ================= RESET ================= */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--fa);
+  background:var(--bg);
+  color:var(--white);
+  line-height:1.9;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+img{max-width:100%}
+::selection{background:var(--green);color:#111}
 
-        /* ============ HERO SECTION ============ */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 120px 20px 80px;
-        }
+::-webkit-scrollbar{width:9px}
+::-webkit-scrollbar-track{background:#141414}
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,var(--green),var(--purple));
+  border-radius:10px;
+}
 
-        .hero-header {
-            display: flex;
-            align-items: baseline;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+/* ================= OVERLAYS ================= */
+.scanlines{
+  position:fixed;inset:0;pointer-events:none;z-index:9998;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.14) 0 1px,transparent 1px 3px);
+  opacity:.5;
+}
+.bg-grid{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(circle at 1px 1px,rgba(0,255,149,.055) 1px,transparent 0);
+  background-size:42px 42px;
+  mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 85%);
+  -webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 85%);
+}
 
-        .hero h1 {
-            font-size: 56px;
-            color: #1E293B;
-            letter-spacing: 2px;
-        }
+/* ================= NAVBAR ================= */
+nav{
+  position:fixed;top:0;right:0;width:100%;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 40px;
+  background:rgba(26,26,26,.78);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  transition:var(--t);
+}
+nav.scrolled{
+  background:rgba(22,22,22,.94);
+  border-bottom-color:var(--green-line);
+  box-shadow:0 6px 30px rgba(0,0,0,.55);
+}
+.logo{
+  font-family:var(--mono);font-size:19px;font-weight:700;
+  letter-spacing:.5px;color:var(--green);
+  display:flex;align-items:center;gap:7px;direction:ltr;
+}
+.logo .caret{color:var(--purple);animation:blink 1.1s step-end infinite}
+.logo span{color:var(--purple);font-weight:400}
+@keyframes blink{50%{opacity:0}}
 
-        .hero h1 span {
-            color: #3B82F6;
-        }
+.nav-links{display:flex;gap:6px}
+.nav-links a{
+  position:relative;display:inline-block;
+  font-size:14px;color:var(--gray);
+  padding:8px 15px;border-radius:8px;
+  border:1px solid transparent;transition:var(--t);
+}
+.nav-links a::before{
+  content:'~/';font-family:var(--mono);font-size:12px;
+  color:var(--gray-dim);margin-left:5px;transition:var(--t);
+}
+.nav-links a:hover{
+  color:var(--green);background:var(--green-soft);
+  border-color:var(--green-line);
+}
+.nav-links a:hover::before{color:var(--purple)}
 
-        .founded {
-            font-size: 13px;
-            color: #94A3B8;
-            letter-spacing: 1px;
-            font-style: italic;
-            border-left: 2px solid #CBD5E1;
-            padding-left: 15px;
-            white-space: nowrap;
-        }
+.menu-toggle{
+  display:none;flex-direction:column;gap:5px;cursor:pointer;
+  padding:9px;border:1px solid var(--green-line);border-radius:8px;transition:var(--t);
+}
+.menu-toggle span{width:21px;height:2px;background:var(--green);border-radius:2px;transition:var(--t)}
+.menu-toggle:hover{background:var(--green-soft)}
+.menu-toggle.active span:nth-child(1){transform:translateY(7px) rotate(45deg);background:var(--purple)}
+.menu-toggle.active span:nth-child(2){opacity:0}
+.menu-toggle.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);background:var(--purple)}
 
-        .hero .tagline {
-            font-size: 20px;
-            color: #64748B;
-            margin-bottom: 40px;
-            margin-top: 10px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
+/* ================= HERO ================= */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:120px 20px 80px;overflow:hidden;text-align:center;
+}
+#net{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero::after{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%,transparent 35%,rgba(26,26,26,.75) 100%);
+}
+.hero-wrap{position:relative;z-index:2;width:100%;max-width:760px}
 
-        .hero p {
-            max-width: 700px;
-            font-size: 18px;
-            color: #475569;
-            line-height: 1.9;
-            margin-bottom: 40px;
-        }
+.window{
+  background:rgba(32,32,32,.82);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--r);
+  box-shadow:0 24px 70px rgba(0,0,0,.5);
+  overflow:hidden;
+  position:relative;
+}
+.window::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--green),var(--purple),transparent);
+}
+.win-bar{
+  display:flex;align-items:center;gap:8px;
+  padding:12px 18px;background:rgba(0,0,0,.28);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#ff5f56}.dot.y{background:#ffbd2e}.dot.g{background:#27c93f}
+.win-title{
+  font-family:var(--mono);font-size:11.5px;color:var(--gray-dim);
+  direction:ltr;margin-right:auto;letter-spacing:.3px;
+}
+.win-body{padding:40px 42px 44px}
 
-        .hero-btn {
-            display: inline-block;
-            background-color: #3B82F6;
-            color: #FFFFFF;
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s;
-            letter-spacing: 1px;
-        }
+.cmd{
+  font-family:var(--mono);font-size:13px;color:var(--gray-dim);
+  direction:ltr;text-align:left;margin-bottom:18px;
+}
+.cmd b{color:var(--purple);font-weight:500}
+.cmd i{color:var(--green);font-style:normal}
 
-        .hero-btn:hover {
-            background-color: #2563EB;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
-        }
+.hero h1{
+  font-family:var(--mono);font-size:50px;line-height:1.25;
+  letter-spacing:1px;direction:ltr;color:var(--white);
+  text-shadow:0 0 28px rgba(0,255,149,.18);
+}
+.hero h1 em{font-style:normal;color:var(--green)}
+.hero h1 i{font-style:normal;color:var(--purple)}
 
-        /* ============ SERVICES SECTION ============ */
-        .services {
-            padding: 100px 40px;
-            background-color: #F8FAFC;
-        }
+.founded{
+  display:block;direction:ltr;font-family:var(--mono);
+  font-size:12.5px;color:var(--gray-dim);letter-spacing:.6px;margin-top:6px;
+}
+.founded::before{content:'// ';color:var(--purple)}
 
-        .section-title {
-            text-align: center;
-            font-size: 36px;
-            color: #1E293B;
-            margin-bottom: 15px;
-        }
+.tagline{
+  font-family:var(--mono);direction:ltr;
+  font-size:19px;letter-spacing:3px;color:var(--green);
+  margin:22px 0 20px;min-height:30px;
+  text-shadow:0 0 18px var(--green-glow);
+}
+.tagline .sep{color:var(--purple)}
+.caret-blk{
+  display:inline-block;width:9px;height:17px;
+  background:var(--green);margin-left:3px;vertical-align:-2px;
+  animation:blink .85s step-end infinite;box-shadow:0 0 10px var(--green-glow);
+}
+.hero-desc{
+  font-size:15.5px;color:var(--gray);line-height:2.1;
+  max-width:600px;margin:0 auto 32px;
+}
+.hero-desc b{color:var(--white);font-weight:500}
 
-        .section-subtitle {
-            text-align: center;
-            color: #64748B;
-            margin-bottom: 60px;
-            font-size: 16px;
-        }
+/* ================= BUTTONS ================= */
+.btn{
+  position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--fa);font-size:15px;font-weight:600;
+  padding:13px 34px;border-radius:9px;cursor:pointer;
+  color:var(--green);background:transparent;
+  border:1px solid var(--green);transition:var(--t);
+}
+.btn .ico{font-family:var(--mono);font-size:13px;color:var(--purple);transition:var(--t)}
+.btn::before{
+  content:'';position:absolute;top:0;left:-120%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(192,132,252,.28),transparent);
+  transition:.55s;
+}
+.btn:hover::before{left:120%}
+.btn:hover{
+  background:var(--green-soft);
+  box-shadow:0 0 26px var(--green-glow),0 0 50px rgba(192,132,252,.12);
+  transform:translateY(-2px);
+}
+.btn:hover .ico{transform:translateX(-4px);color:var(--green)}
 
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
+/* ================= SECTIONS ================= */
+section{position:relative;z-index:1;padding:100px 40px}
+.sec-head{text-align:center;margin-bottom:58px}
+.sec-title{font-size:31px;color:var(--white);display:inline-block}
+.sec-title::before{
+  content:'## ';font-family:var(--mono);font-size:23px;color:var(--purple);
+}
+.sec-sub{font-size:14.5px;color:var(--gray);margin-top:6px}
+.sec-sub::before{content:'> ';font-family:var(--mono);color:var(--green)}
 
-        .service-card {
-            background-color: #FFFFFF;
-            border: 1px solid #E2E8F0;
-            border-radius: 16px;
-            padding: 40px 30px;
-            text-align: center;
-            transition: all 0.3s;
-        }
+/* ================= SERVICES ================= */
+.services{
+  background:var(--bg-2);
+  border-block:1px solid rgba(255,255,255,.06);
+}
+.grid{
+  display:grid;gap:22px;max-width:1120px;margin:0 auto;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+}
+.card{
+  position:relative;overflow:hidden;
+  background:var(--bg-card);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--r);
+  padding:34px 28px;text-align:center;transition:var(--t);
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--green),var(--purple),transparent);
+  transform:scaleX(0);transition:transform .45s ease;
+}
+.card:hover::before{transform:scaleX(1)}
+.card:hover{
+  transform:translateY(-7px);
+  background:var(--bg-card-hover);
+  border-color:var(--green-line);
+  box-shadow:0 18px 45px rgba(0,0,0,.45),0 0 0 1px rgba(0,255,149,.05);
+}
+.card .tag{
+  position:absolute;top:12px;left:14px;
+  font-family:var(--mono);font-size:10.5px;color:var(--gray-dim);
+  opacity:0;transition:var(--t);direction:ltr;
+}
+.card:hover .tag{opacity:1;color:var(--purple)}
 
-        .service-card:hover {
-            transform: translateY(-8px);
-            border-color: #3B82F6;
-            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.1);
-        }
+.icon-wrap{position:relative;display:inline-grid;place-items:center;width:84px;height:84px;margin-bottom:16px}
+.icon{font-size:40px;position:relative;z-index:2;transition:var(--t);filter:grayscale(.15)}
+.card:hover .icon{transform:scale(1.08)}
+.ring{
+  position:absolute;width:56px;height:56px;border-radius:50%;
+  border:1px solid var(--green);opacity:0;
+}
+.ring.p{border-color:var(--purple)}
+.card:hover .ring{animation:radar 2s ease-out infinite}
+.card:hover .ring:nth-of-type(2){animation-delay:.55s}
+.card:hover .ring:nth-of-type(3){animation-delay:1.1s}
+@keyframes radar{
+  0%{width:52px;height:52px;opacity:.65}
+  100%{width:118px;height:118px;opacity:0}
+}
+.card h3{font-size:19px;color:var(--green);margin-bottom:10px;font-weight:600}
+.card:nth-child(even) h3{color:var(--purple)}
+.card p{font-size:14px;color:var(--gray);line-height:2}
 
-        .service-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
+/* ================= ABOUT ================= */
+.about{max-width:940px;margin:0 auto}
+.about .win-body{padding:34px 36px 32px;text-align:right}
+.about p{font-size:15.5px;color:var(--gray);line-height:2.3}
+.about p b{color:var(--green);font-weight:600}
+.about p u{text-decoration:none;color:var(--purple)}
 
-        .service-card h3 {
-            font-size: 22px;
-            color: #1E293B;
-            margin-bottom: 15px;
-        }
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  margin-top:28px;padding-top:24px;border-top:1px dashed rgba(255,255,255,.1);
+}
+.stat{text-align:center}
+.stat .num{
+  font-family:var(--mono);font-size:27px;font-weight:700;color:var(--green);
+  display:block;direction:ltr;text-shadow:0 0 16px var(--green-glow);
+}
+.stat:nth-child(2) .num{color:var(--purple);text-shadow:0 0 16px var(--purple-glow)}
+.stat .lbl{font-size:12.5px;color:var(--gray-dim);margin-top:2px}
 
-        .service-card p {
-            color: #64748B;
-            font-size: 15px;
-            line-height: 1.8;
-        }
+/* ================= CONTACT ================= */
+.contact{background:var(--bg-2);border-top:1px solid rgba(255,255,255,.06)}
+.contact-grid{
+  display:grid;gap:22px;max-width:1000px;margin:0 auto;
+  grid-template-columns:repeat(auto-fit,minmax(258px,1fr));
+}
+.c-card{
+  position:relative;overflow:hidden;text-align:center;
+  background:var(--bg-card);border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--r);padding:32px 22px;transition:var(--t);
+}
+.c-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--purple),var(--green),transparent);
+  transform:scaleX(0);transition:transform .45s ease;
+}
+.c-card:hover::before{transform:scaleX(1)}
+.c-card:hover{transform:translateY(-5px);border-color:var(--purple-line);box-shadow:0 16px 40px rgba(0,0,0,.45)}
+.c-card .ic{font-size:32px;margin-bottom:12px;display:block}
+.c-card h3{font-size:17px;color:var(--white);margin-bottom:8px}
+.c-card p{font-size:14px;color:var(--gray)}
+.c-card a{
+  font-family:var(--mono);font-size:14.5px;color:var(--green);
+  direction:ltr;display:inline-block;transition:var(--t);
+}
+.c-card a:hover{color:var(--purple);text-shadow:0 0 12px var(--purple-glow)}
 
-        /* ============ ABOUT SECTION ============ */
-        .about {
-            padding: 100px 40px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
+/* ================= FORM ================= */
+.form-win{max-width:620px;margin:40px auto 0}
+.form-win .win-body{padding:32px 34px 34px;text-align:right}
+.form-title{font-size:19px;color:var(--white);text-align:center;margin-bottom:24px}
+.fg{margin-bottom:18px}
+.fg label{display:block;font-size:13px;color:var(--gray);margin-bottom:8px}
+.fg label::before{content:'> ';font-family:var(--mono);color:var(--green)}
+.fg input,.fg textarea{
+  width:100%;padding:13px 16px;
+  background:var(--bg-input);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:9px;color:var(--white);
+  font-family:var(--fa);font-size:14.5px;transition:var(--t);
+}
+.fg input::placeholder,.fg textarea::placeholder{color:#565660}
+.fg input:focus,.fg textarea:focus{
+  outline:none;border-color:var(--green);
+  box-shadow:0 0 0 3px var(--green-soft),0 0 22px rgba(0,255,149,.1);
+}
+.fg textarea{height:120px;resize:vertical;line-height:1.9}
+.fg .mono-in{font-family:var(--mono);direction:ltr;text-align:left;font-size:13.5px}
 
-        .about-box {
-            background-color: #F8FAFC;
-            border: 1px solid #E2E8F0;
-            border-radius: 16px;
-            padding: 50px 40px;
-            text-align: center;
-        }
+.submit{
+  width:100%;position:relative;overflow:hidden;
+  padding:14px;border-radius:9px;cursor:pointer;
+  font-family:var(--fa);font-size:15px;font-weight:600;letter-spacing:.5px;
+  color:var(--green);background:transparent;border:1px solid var(--green);
+  transition:var(--t);
+}
+.submit::before{
+  content:'';position:absolute;top:0;left:-120%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(192,132,252,.25),transparent);transition:.55s;
+}
+.submit:hover::before{left:120%}
+.submit:hover{background:var(--green-soft);box-shadow:0 0 26px var(--green-glow)}
+.submit:disabled{opacity:.55;cursor:not-allowed;border-color:var(--purple);color:var(--purple)}
 
-        .about-box p {
-            font-size: 17px;
-            color: #475569;
-            line-height: 2;
-        }
+/* ================= TOAST ================= */
+.toast{
+  position:fixed;bottom:28px;left:50%;z-index:10000;
+  transform:translateX(-50%) translateY(140%);
+  display:flex;align-items:flex-start;gap:12px;
+  background:#1c1c1c;border:1px solid var(--green);
+  border-radius:var(--r);padding:15px 22px;max-width:92vw;
+  box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 26px rgba(0,255,149,.14);
+  opacity:0;transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .35s;
+}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.err{border-color:var(--red);box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 26px rgba(255,95,86,.16)}
+.toast .t-ic{font-family:var(--mono);font-size:17px;color:var(--green);line-height:1.6}
+.toast.err .t-ic{color:var(--red)}
+.toast .t-txt{font-size:14px;color:var(--white);line-height:1.8}
+.toast .t-txt small{
+  display:block;direction:ltr;text-align:left;
+  font-family:var(--mono);font-size:11.5px;color:var(--green);opacity:.85;margin-top:2px;
+}
+.toast.err .t-txt small{color:var(--red)}
 
-        /* ============ CONTACT SECTION ============ */
-        .contact {
-            padding: 100px 40px;
-            background-color: #F8FAFC;
-        }
+/* ================= FOOTER ================= */
+footer{
+  background:var(--bg);border-top:1px solid rgba(255,255,255,.06);
+  text-align:center;padding:26px 20px;position:relative;z-index:1;
+}
+footer p{font-family:var(--mono);font-size:12.5px;color:var(--gray-dim);direction:ltr}
+footer b{color:var(--green);font-weight:500}
+footer i{color:var(--purple);font-style:normal}
 
-        .contact-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
+/* ================= REVEAL ================= */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.4,0,.2,1)}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+.d4{transition-delay:.32s}.d5{transition-delay:.4s}.d6{transition-delay:.48s}
 
-        .contact-card {
-            background-color: #FFFFFF;
-            border: 1px solid #E2E8F0;
-            border-radius: 16px;
-            padding: 40px 30px;
-            text-align: center;
-            transition: all 0.3s;
-        }
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.01ms!important}
+  .rv{opacity:1;transform:none}
+}
 
-        .contact-card:hover {
-            transform: translateY(-5px);
-            border-color: #3B82F6;
-            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.1);
-        }
+/* ================= RESPONSIVE ================= */
+@media(max-width:860px){
+  nav{padding:12px 20px}
+  .menu-toggle{display:flex}
+  .nav-links{
+    position:absolute;top:100%;right:0;width:100%;
+    flex-direction:column;align-items:stretch;gap:2px;
+    padding:14px 18px 18px;
+    background:rgba(24,24,24,.98);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--green-line);
+    display:none;
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{text-align:right;padding:11px 14px}
 
-        .contact-icon {
-            font-size: 40px;
-            margin-bottom: 20px;
-        }
-
-        .contact-card h3 {
-            font-size: 20px;
-            color: #1E293B;
-            margin-bottom: 10px;
-        }
-
-        .contact-card p {
-            color: #64748B;
-            font-size: 16px;
-        }
-
-        .contact-card a {
-            color: #3B82F6;
-            transition: color 0.3s;
-        }
-
-        .contact-card a:hover {
-            color: #2563EB;
-        }
-
-        /* ============ CONTACT FORM ============ */
-        .contact-form {
-            max-width: 600px;
-            margin: 50px auto 0;
-            background-color: #FFFFFF;
-            border: 1px solid #E2E8F0;
-            border-radius: 16px;
-            padding: 40px;
-        }
-
-        .contact-form h3 {
-            text-align: center;
-            font-size: 22px;
-            color: #1E293B;
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #64748B;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 14px 18px;
-            background-color: #F8FAFC;
-            border: 1px solid #E2E8F0;
-            border-radius: 10px;
-            color: #1E293B;
-            font-size: 15px;
-            font-family: inherit;
-            transition: border 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #3B82F6;
-        }
-
-        .form-group textarea {
-            height: 130px;
-            resize: vertical;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            background-color: #3B82F6;
-            color: #FFFFFF;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            letter-spacing: 1px;
-        }
-
-        .submit-btn:hover {
-            background-color: #2563EB;
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
-        }
-
-        /* ============ FOOTER ============ */
-        footer {
-            background-color: #F1F5F9;
-            text-align: center;
-            padding: 30px 20px;
-            border-top: 1px solid #E2E8F0;
-        }
-
-        footer p {
-            color: #94A3B8;
-            font-size: 14px;
-        }
-
-        footer span {
-            color: #3B82F6;
-        }
-
-        /* ============ MOBILE RESPONSIVE ============ */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 5px;
-        }
-
-        .menu-toggle span {
-            width: 25px;
-            height: 3px;
-            background-color: #1E293B;
-            border-radius: 3px;
-            transition: 0.3s;
-        }
-
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: flex;
-            }
-
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                background-color: #FFFFFF;
-                flex-direction: column;
-                align-items: center;
-                padding: 20px 0;
-                gap: 10px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .hero h1 {
-                font-size: 36px;
-            }
-
-            .hero .tagline {
-                font-size: 14px;
-            }
-
-            .hero p {
-                font-size: 16px;
-            }
-
-            .section-title {
-                font-size: 28px;
-            }
-
-            .about-box {
-                padding: 30px 20px;
-            }
-
-            .contact-form {
-                padding: 25px;
-            }
-
-            .hero-header {
-                flex-direction: column;
-                align-items: center;
-                gap: 5px;
-            }
-
-            .founded {
-                border-left: none;
-                padding-left: 0;
-                border-top: 1px solid #E2E8F0;
-                padding-top: 8px;
-            }
-        }
-    </style>
+  section{padding:72px 18px}
+  .win-body{padding:28px 20px 32px!important}
+  .hero{padding:110px 16px 70px}
+  .hero h1{font-size:31px}
+  .tagline{font-size:15px;letter-spacing:1.6px}
+  .hero-desc{font-size:14.5px}
+  .sec-title{font-size:24px}
+  .sec-title::before{font-size:18px}
+  .grid,.contact-grid{grid-template-columns:1fr}
+  .stats{gap:10px}
+  .stat .num{font-size:21px}
+  .stat .lbl{font-size:11px}
+  .cmd{font-size:11.5px}
+}
+@media(max-width:400px){
+  .hero h1{font-size:25px}
+  .logo{font-size:16px}
+  .founded{font-size:11px}
+}
+</style>
 </head>
+
 <body>
+<div class="scanlines"></div>
+<div class="bg-grid"></div>
 
-    <!-- ============ NAVBAR ============ -->
-    <nav>
-        <div class="logo">Ardovan <span>Network</span></div>
-        <div class="menu-toggle" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+<!-- ================= NAV ================= -->
+<nav id="nav">
+  <a href="#home" class="logo"><span class="caret">&gt;</span>Ardovan <span>Network</span></a>
+  <div class="menu-toggle" id="burger" aria-label="منو"><span></span><span></span><span></span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">خانه</a></li>
+    <li><a href="#services">خدمات</a></li>
+    <li><a href="#about">درباره ما</a></li>
+    <li><a href="#contact">تماس</a></li>
+  </ul>
+</nav>
 
-    <!-- ============ HERO SECTION ============ -->
-    <section class="hero" id="home">
-        <div class="hero-header">
-            <h1>Ardovan <span>Network</span></h1>
-            <p class="founded">Founded by Khashayar Montazeri</p>
-        </div>
-        <p class="tagline">Secure · Reliable · Connected</p>
-        <p>
-            At Ardovan Network, we deliver professional networking solutions, 
-            IT infrastructure support, and advanced cybersecurity services. 
-            Whether you're a small business or a growing enterprise, we ensure 
-            your systems stay secure, fast, and always online. Your network 
-            is our priority.
+<!-- ================= HERO ================= -->
+<section class="hero" id="home">
+  <canvas id="net"></canvas>
+
+  <div class="hero-wrap">
+    <div class="window">
+      <div class="win-bar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="win-title">root@ardovan:~#</span>
+      </div>
+
+      <div class="win-body">
+        <p class="cmd"><b>$</b> <i>whoami</i></p>
+
+        <h1><em>Ardovan</em> <i>Network</i></h1>
+        <span class="founded">Founded by Khashayar Montazeri</span>
+
+        <p class="tagline" id="tagline"><span class="caret-blk"></span></p>
+
+        <p class="hero-desc">
+          شبکه، زیرساخت و امنیت؛ سه چیزی که اگر درست کار کنن، اصلاً به چشم نمیان.
+          کار ما دقیقاً همینه. <b>اردوان نتورک</b> از طراحی شبکه تا پایش امنیتی و
+          پشتیبانی روزمره کنار شماست تا سیستم‌هاتون سریع، امن و همیشه در دسترس بمونه —
+          چه یک دفتر کوچک باشید، چه یک مجموعه در حال رشد.
         </p>
-        <a href="#contact" class="hero-btn">Get In Touch</a>
-    </section>
 
-    <!-- ============ SERVICES SECTION ============ -->
-    <section class="services" id="services">
-        <h2 class="section-title">What We Do</h2>
-        <p class="section-subtitle">Professional IT solutions tailored to your needs</p>
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">🌐</div>
-                <h3>Network Design</h3>
-                <p>We design and deploy robust network infrastructures for businesses 
-                   of all sizes, ensuring maximum performance and scalability.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🔒</div>
-                <h3>Cybersecurity</h3>
-                <p>Protect your data and systems with our comprehensive security 
-                   solutions including firewalls, threat detection, and vulnerability assessments.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🛠️</div>
-                <h3>IT Support</h3>
-                <p>Our dedicated support team provides 24/7 monitoring, troubleshooting, 
-                   and maintenance to keep your operations running smoothly.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">☁️</div>
-                <h3>Cloud Solutions</h3>
-                <p>Migrate to the cloud with confidence. We offer cloud setup, management, 
-                   and optimization services for modern businesses.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">📡</div>
-                <h3>Wireless Solutions</h3>
-                <p>Enterprise-grade wireless network setup and optimization for 
-                   seamless connectivity across your entire organization.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">💾</div>
-                <h3>Data Backup</h3>
-                <p>Automated backup solutions and disaster recovery planning to 
-                   ensure your critical data is always safe and recoverable.</p>
-            </div>
+        <a href="#contact" class="btn"><span class="ico">&lt;/&gt;</span> شروع گفتگو</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="services" id="services">
+  <div class="sec-head">
+    <h2 class="sec-title rv">خدمات ما</h2>
+    <p class="sec-sub rv d1">راهکارهایی که دقیقاً اندازه کسب‌وکار شما دوخته می‌شن</p>
+  </div>
+
+  <div class="grid">
+    <article class="card rv d1">
+      <span class="tag">01 / network</span>
+      <div class="icon-wrap">
+        <span class="ring"></span><span class="ring p"></span><span class="ring"></span>
+        <span class="icon">🌐</span>
+      </div>
+      <h3>طراحی شبکه</h3>
+      <p>زیرساخت شبکه‌ای می‌سازیم که با رشد شما بزرگ می‌شه؛ پایدار، سریع و بدون گلوگاه. از نقشه اولیه تا اجرای کامل.</p>
+    </article>
+
+    <article class="card rv d2">
+      <span class="tag">02 / security</span>
+      <div class="icon-wrap">
+        <span class="ring"></span><span class="ring p"></span><span class="ring"></span>
+        <span class="icon">🔐</span>
+      </div>
+      <h3>امنیت سایبری</h3>
+      <p>فایروال، شناسایی تهدید و تست آسیب‌پذیری. جلوی مشکل رو قبل از اینکه مشکل بشه می‌گیریم.</p>
+    </article>
+
+    <article class="card rv d3">
+      <span class="tag">03 / support</span>
+      <div class="icon-wrap">
+        <span class="ring"></span><span class="ring p"></span><span class="ring"></span>
+        <span class="icon">🛠️</span>
+      </div>
+      <h3>پشتیبانی فنی</h3>
+      <p>مانیتورینگ شبانه‌روزی، رفع خطا و نگهداری منظم. وقتی چیزی خراب می‌شه، ما قبل از شما خبردار می‌شیم.</p>
+    </article>
+
+    <article class="card rv d4">
+      <span class="tag">04 / cloud</span>
+      <div class="icon-wrap">
+        <span class="ring"></span><span class="ring p"></span><span class="ring"></span>
+        <span class="icon">☁️</span>
+      </div>
+      <h3>راهکارهای ابری</h3>
+      <p>مهاجرت به فضای ابری بدون دردسر و بدون قطعی. راه‌اندازی، مدیریت و بهینه‌سازی مصرف با هم.</p>
+    </article>
+
+    <article class="card rv d5">
+      <span class="tag">05 / wireless</span>
+      <div class="icon-wrap">
+        <span class="ring"></span><span class="ring p"></span><span class="ring"></span>
+        <span class="icon">📡</span>
+      </div>
+      <h3>شبکه بی‌سیم</h3>
+      <p>وای‌فای سازمانی با پوشش یکدست در تمام فضا؛ بدون نقطه کور، بدون قطع و وصل شدن‌های عصبی‌کننده.</p>
+    </article>
+
+    <article class="card rv d6">
+      <span class="tag">06 / backup</span>
+      <div class="icon-wrap">
+        <span class="ring"></span><span class="ring p"></span><span class="ring"></span>
+        <span class="icon">💾</span>
+      </div>
+      <h3>بکاپ و بازیابی</h3>
+      <p>پشتیبان‌گیری خودکار و برنامه بازیابی بحران. هر اتفاقی بیفته، داده‌هاتون سر جاشونه.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="about" id="about">
+  <div class="sec-head">
+    <h2 class="sec-title rv">درباره ما</h2>
+    <p class="sec-sub rv d1">ما کی هستیم و چرا بهمون اعتماد می‌کنن</p>
+  </div>
+
+  <div class="window rv d2">
+    <div class="win-bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="win-title">~/ardovan/README.md</span>
+    </div>
+    <div class="win-body">
+      <p class="cmd" style="margin-bottom:14px"><b>$</b> <i>cat README.md</i></p>
+      <p>
+        <b>اردوان نتورک</b> یک تیم کوچک اما سرسخت از مهندسین شبکه و متخصصین امنیته.
+        ما سال‌هاست سراغ همون مسائلی می‌ریم که بقیه ازشون فرار می‌کنن:
+        شبکه‌های شلوغ، سرورهای بی‌ثبات و حفره‌های امنیتی که کسی ندیده.
+        <br><br>
+        روش کارمون ساده‌ست — <u>اول گوش می‌دیم، بعد طراحی می‌کنیم، بعد اجرا</u>.
+        خبری از پیشنهاد سرویس‌های اضافه و فاکتورهای عجیب نیست؛ فقط همون چیزی که
+        واقعاً بهش نیاز دارید. باور ما اینه که فناوری در سطح سازمانی
+        حق همه کسب‌وکارهاست، نه فقط غول‌ها.
+      </p>
+
+      <div class="stats">
+        <div class="stat"><span class="num" data-to="150" data-suffix="+">0</span><span class="lbl">پروژه تحویل‌شده</span></div>
+        <div class="stat"><span class="num" data-to="99" data-suffix="%">0</span><span class="lbl">آپتایم تضمینی</span></div>
+        <div class="stat"><span class="num" data-to="24" data-suffix="/7">0</span><span class="lbl">پشتیبانی فعال</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact" id="contact">
+  <div class="sec-head">
+    <h2 class="sec-title rv">تماس با ما</h2>
+    <p class="sec-sub rv d1">یک پیام بفرستید، سریع جواب می‌دیم</p>
+  </div>
+
+  <div class="contact-grid">
+    <div class="c-card rv d1">
+      <span class="ic">📞</span>
+      <h3>تلفن</h3>
+      <p><a href="tel:+989903155616">0990 315 5616</a></p>
+    </div>
+    <div class="c-card rv d2">
+      <span class="ic">✉️</span>
+      <h3>ایمیل</h3>
+      <p><a href="mailto:ardovanet@gmail.com">ardovanet@gmail.com</a></p>
+    </div>
+    <div class="c-card rv d3">
+      <span class="ic">🕐</span>
+      <h3>ساعت کاری</h3>
+      <p>شنبه تا پنجشنبه<br>۹ صبح تا ۶ عصر</p>
+    </div>
+  </div>
+
+  <div class="window form-win rv d4">
+    <div class="win-bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="win-title">send_message.sh</span>
+    </div>
+    <div class="win-body">
+      <h3 class="form-title">فرم ارسال پیام</h3>
+      <form id="contactForm" novalidate>
+        <div class="fg">
+          <label for="f-name">نام شما</label>
+          <input id="f-name" type="text" name="name" required placeholder="مثلاً: علی رضایی">
         </div>
-    </section>
-
-    <!-- ============ ABOUT SECTION ============ -->
-    <section class="about" id="about">
-        <h2 class="section-title">About Us</h2>
-        <p class="section-subtitle">Who we are and why businesses trust us</p>
-        <div class="about-box">
-            <p>
-                Ardovan Network is a trusted provider of networking, IT support, and 
-                cybersecurity services. Our team of experienced engineers and technicians 
-                is dedicated to helping businesses build secure, reliable, and high-performance 
-                IT infrastructures. From initial network design to ongoing maintenance and 
-                security monitoring, we are with you every step of the way. We believe that 
-                every business deserves enterprise-level technology — and we make it accessible, 
-                affordable, and hassle-free.
-            </p>
+        <div class="fg">
+          <label for="f-mail">ایمیل شما</label>
+          <input id="f-mail" class="mono-in" type="email" name="email" required placeholder="you@example.com" dir="ltr">
         </div>
-    </section>
-    <!-- ============ CONTACT SECTION ============ -->
-    <section class="contact" id="contact">
-        <h2 class="section-title">Contact Us</h2>
-        <p class="section-subtitle">We'd love to hear from you</p>
-
-        <div class="contact-container">
-            <div class="contact-card">
-                <div class="contact-icon">📞</div>
-                <h3>Phone</h3>
-                <p><a href="tel:09903155616">0990 315 5616</a></p>
-            </div>
-            <div class="contact-card">
-                <div class="contact-icon">📧</div>
-                <h3>Email</h3>
-                <p><a href="mailto:ardovanet@gmail.com">ardovanet@gmail.com</a></p>
-            </div>
-            <div class="contact-card">
-                <div class="contact-icon">🕐</div>
-                <h3>Working Hours</h3>
-                <p>Saturday - Thursday<br>9:00 AM - 6:00 PM</p>
-            </div>
+        <div class="fg">
+          <label for="f-msg">پیام</label>
+          <textarea id="f-msg" name="message" required placeholder="بگید چه کمکی از ما برمیاد..."></textarea>
         </div>
+        <input type="hidden" name="_subject" value="پیام جدید از سایت Ardovan Network">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <button type="submit" class="submit" id="sendBtn">ارسال پیام</button>
+      </form>
+    </div>
+  </div>
+</section>
 
-        <!-- CONTACT FORM -->
-        <div class="contact-form">
-            <h3>Send Us a Message</h3>
-            <form action="https://formsubmit.co/ardovanet@gmail.com" method="POST">
-                <div class="form-group">
-                    <label>Your Name</label>
-                    <input type="text" name="name" required placeholder="Enter your name">
-                </div>
-                <div class="form-group">
-                    <label>Your Email</label>
-                    <input type="email" name="email" required placeholder="Enter your email">
-                </div>
-                <div class="form-group">
-                    <label>Message</label>
-                    <textarea name="message" required placeholder="How can we help you?"></textarea>
-                </div>
-                <input type="hidden" name="_subject" value="New message from Ardovan Network website">
-                <input type="hidden" name="_captcha" value="false">
-                <button type="submit" class="submit-btn">SEND MESSAGE</button>
-            </form>
-        </div>
-    </section>
+<!-- ================= FOOTER ================= -->
+<footer>
+  <p>&copy; 2024 <b>Ardovan Network</b> <i>//</i> all rights reserved.</p>
+</footer>
 
-    <!-- ============ FOOTER ============ -->
-    <footer>
-        <p>&copy; 2024 <span>Ardovan Network</span>. All rights reserved.</p>
-    </footer>
+<!-- ================= TOAST ================= -->
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <span class="t-ic" id="toastIc">[✓]</span>
+  <span class="t-txt" id="toastTxt">پیام شما ارسال شد.<small>&gt; status: 200 OK</small></span>
+</div>
 
-    <!-- ============ JAVASCRIPT ============ -->
-    <script>
-        function toggleMenu() {
-            document.getElementById('navLinks').classList.toggle('active');
+<script>
+/* ============ MENU ============ */
+(function(){
+  const burger=document.getElementById('burger'),links=document.getElementById('navLinks');
+  burger.addEventListener('click',()=>{links.classList.toggle('open');burger.classList.toggle('active')});
+  links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+    links.classList.remove('open');burger.classList.remove('active');
+  }));
+})();
+
+/* ============ NAV ON SCROLL ============ */
+(function(){
+  const nav=document.getElementById('nav');let tick=false;
+  window.addEventListener('scroll',()=>{
+    if(tick)return;tick=true;
+    requestAnimationFrame(()=>{nav.classList.toggle('scrolled',scrollY>40);tick=false;});
+  },{passive:true});
+})();
+
+/* ============ SMOOTH ANCHORS ============ */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(!t)return;e.preventDefault();
+    window.scrollTo({top:t.getBoundingClientRect().top+scrollY-66,behavior:'smooth'});
+  });
+});
+
+/* ============ TYPEWRITER TAGLINE ============ */
+(function(){
+  const el=document.getElementById('tagline');
+  const parts=[{t:'ایمن',c:'g'},{t:' · ',c:'s'},{t:'پایدار',c:'g'},{t:' · ',c:'s'},{t:'متصل',c:'g'}];
+  const full=parts.map(p=>p.t).join('');
+  let i=0;
+  const caret='<span class="caret-blk"></span>';
+
+  function paint(n){
+    let out='',count=0;
+    for(const p of parts){
+      if(count>=n)break;
+      const take=Math.min(p.t.length,n-count);
+      const chunk=p.t.slice(0,take);
+      out+= p.c==='s' ? '<span class="sep">'+chunk+'</span>' : chunk;
+      count+=take;
+    }
+    el.innerHTML=out+caret;
+  }
+
+  function type(){
+    if(i<=full.length){paint(i);i++;setTimeout(type,90+Math.random()*70);}
+  }
+  setTimeout(type,700);
+})();
+
+/* ============ INTERACTIVE NETWORK CANVAS ============ */
+(function(){
+  const cv=document.getElementById('net'),ctx=cv.getContext('2d');
+  const GREEN=[0,255,149],PURPLE=[192,132,252];
+  let W=0,H=0,DPR=1,nodes=[],raf=null,running=true;
+  const pointer={x:null,y:null,r:150};
+
+  function size(){
+    const host=cv.parentElement;
+    DPR=Math.min(window.devicePixelRatio||1,2);
+    W=host.offsetWidth;H=host.offsetHeight;
+    cv.width=W*DPR;cv.height=H*DPR;
+    cv.style.width=W+'px';cv.style.height=H+'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+  }
+
+  function build(){
+    const dense=W<700?16000:11000;
+    const n=Math.max(28,Math.min(Math.round((W*H)/dense),110));
+    nodes=[];
+    for(let i=0;i<n;i++){
+      nodes.push({
+        x:Math.random()*W,y:Math.random()*H,
+        vx:(Math.random()-.5)*.38,vy:(Math.random()-.5)*.38,
+        r:Math.random()*1.7+1,
+        a:Math.random()*.45+.25,
+        c:Math.random()<.62?GREEN:PURPLE
+      });
+    }
+  }
+
+  const LINK=138,LINK2=LINK*LINK;
+
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+
+    for(let i=0;i<nodes.length;i++){
+      const p=nodes[i];
+
+      if(pointer.x!==null){
+        const dx=p.x-pointer.x,dy=p.y-pointer.y,d2=dx*dx+dy*dy;
+        if(d2<pointer.r*pointer.r && d2>1){
+          const d=Math.sqrt(d2),f=(pointer.r-d)/pointer.r;
+          p.x+=(dx/d)*f*2.1;p.y+=(dy/d)*f*2.1;
         }
+      }
 
-        // Close menu when a link is clicked
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('navLinks').classList.remove('active');
-            });
-        });
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<=0||p.x>=W){p.vx*=-1;p.x=Math.max(0,Math.min(W,p.x));}
+      if(p.y<=0||p.y>=H){p.vy*=-1;p.y=Math.max(0,Math.min(H,p.y));}
 
-        // Navbar background on scroll
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.style.backgroundColor = '#F8FAFC';
-            } else {
-                nav.style.backgroundColor = '#FFFFFF';
-            }
-        });
-    </script>
+      for(let j=i+1;j<nodes.length;j++){
+        const q=nodes[j],dx=p.x-q.x,dy=p.y-q.y,d2=dx*dx+dy*dy;
+        if(d2<LINK2){
+          const o=(1-Math.sqrt(d2)/LINK)*.26;
+          const c=p.c===q.c?p.c:[96,193,200];
+          ctx.strokeStyle='rgba('+c[0]+','+c[1]+','+c[2]+','+o.toFixed(3)+')';
+          ctx.lineWidth=.6;
+          ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();
+        }
+      }
 
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,6.283);
+      ctx.fillStyle='rgba('+p.c[0]+','+p.c[1]+','+p.c[2]+','+p.a+')';
+      ctx.fill();
+    }
+
+    /* pointer halo */
+    if(pointer.x!==null){
+      const g=ctx.createRadialGradient(pointer.x,pointer.y,0,pointer.x,pointer.y,pointer.r);
+      g.addColorStop(0,'rgba(0,255,149,.06)');
+      g.addColorStop(1,'rgba(0,255,149,0)');
+      ctx.fillStyle=g;
+      ctx.beginPath();ctx.arc(pointer.x,pointer.y,pointer.r,0,6.283);ctx.fill();
+    }
+
+    raf=requestAnimationFrame(frame);
+  }
+
+  function move(x,y){
+    const b=cv.getBoundingClientRect();
+    pointer.x=x-b.left;pointer.y=y-b.top;
+  }
+  cv.addEventListener('mousemove',e=>move(e.clientX,e.clientY));
+  cv.addEventListener('mouseleave',()=>{pointer.x=pointer.y=null});
+  cv.addEventListener('touchstart',e=>{const t=e.touches[0];move(t.clientX,t.clientY)},{passive:true});
+  cv.addEventListener('touchmove',e=>{const t=e.touches[0];move(t.clientX,t.clientY)},{passive:true});
+  cv.addEventListener('touchend',()=>{pointer.x=pointer.y=null});
+
+  let rt;window.addEventListener('resize',()=>{
+    clearTimeout(rt);rt=setTimeout(()=>{size();build();},200);
+  });
+
+  /* pause when hero out of view (performance) */
+  new IntersectionObserver(es=>{
+    es.forEach(en=>{
+      if(en.isIntersecting && !running){running=true;raf=requestAnimationFrame(frame);}
+      else if(!en.isIntersecting && running){running=false;cancelAnimationFrame(raf);}
+    });
+  },{threshold:0}).observe(cv.parentElement);
+
+  size();build();frame();
+})();
+
+/* ============ SCROLL REVEAL ============ */
+(function(){
+  const io=new IntersectionObserver((es,ob)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ob.unobserve(e.target);}});
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+})();
+
+/* ============ COUNTERS ============ */
+(function(){
+  const box=document.querySelector('.stats');if(!box)return;
+  const io=new IntersectionObserver((es,ob)=>{
+    es.forEach(e=>{
+      if(!e.isIntersecting)return;
+      ob.disconnect();
+      box.querySelectorAll('.num').forEach(el=>{
+        const to=+el.dataset.to,sfx=el.dataset.suffix||'';
+        const dur=1600,t0=performance.now();
+        (function step(now){
+          const p=Math.min((now-t0)/dur,1);
+          const eased=1-Math.pow(1-p,3);
+          el.textContent=Math.round(to*eased)+(p===1?sfx:'');
+          if(p<1)requestAnimationFrame(step);
+        })(t0);
+      });
+    });
+  },{threshold:.4});
+  io.observe(box);
+})();
+
+/* ============ AJAX FORM + TOAST ============ */
+(function(){
+  const form=document.getElementById('contactForm'),
+        btn=document.getElementById('sendBtn'),
+        toast=document.getElementById('toast'),
+        tIc=document.getElementById('toastIc'),
+        tTxt=document.getElementById('toastTxt');
+  let hideTimer;
+
+  function show(ok,msg,code){
+    clearTimeout(hideTimer);
+    toast.classList.toggle('err',!ok);
+    tIc.textContent=ok?'[✓]':'[✗]';
+    tTxt.innerHTML=msg+'<small>&gt; '+code+'</small>';
+    toast.classList.add('show');
+    hideTimer=setTimeout(()=>toast.classList.remove('show'),4600);
+  }
+
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    if(!form.checkValidity()){
+      show(false,'لطفاً همه فیلدها رو درست پر کنید.','error: invalid input');
+      form.reportValidity();return;
+    }
+    const label=btn.textContent;
+    btn.disabled=true;btn.textContent='در حال ارسال...';
+
+    try{
+      const res=await fetch('https://formsubmit.co/ajax/ardovanet@gmail.com',{
+        method:'POST',
+        headers:{'Accept':'application/json'},
+        body:new FormData(form)
+      });
+      if(res.ok){
+        form.reset();
+        show(true,'پیام شما رسید! خیلی زود جواب می‌دیم.','status: 200 OK — message delivered');
+      }else{
+        show(false,'ارسال نشد. لطفاً دوباره امتحان کنید.','error: '+res.status);
+      }
+    }catch(err){
+      show(false,'اتصال برقرار نشد. اینترنت رو چک کنید.','error: network unreachable');
+    }finally{
+      btn.disabled=false;btn.textContent=label;
+    }
+  });
+})();
+</script>
 </body>
-
 </html>
